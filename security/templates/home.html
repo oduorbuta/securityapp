@@ -13,6 +13,8 @@
         }
         
         .container {
+        
+            width: auto;
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
@@ -43,6 +45,28 @@
         button:hover {
             background-color: #0056b3;
         }
+        #locationDisplay {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        #map-box {
+            border: 2px solid #ccc; /* Border style */
+            border-radius: 10px; /* Rounded corners */
+            padding: 10px; /* Padding inside the box */
+            width: 80%; /* Set a width to fit the content */
+            margin: 0 auto; /* Center the box horizontally */
+            margin-top: 20px; /* Add some top margin */
+        }
+        #map {
+            height: 300px;
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -55,5 +79,59 @@
             <button>Capture Image</button>
         </div>
     </div>
+    <!-- Div to display current location -->
+    <div id="locationDisplay"></div>
+    <div id="map-box">
+    <div id="map"></div>
+    </div>
+    <script>
+        // JavaScript code for retrieving and displaying current location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                // Geolocation is not supported by this browser
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            var locationDiv = document.getElementById("locationDisplay");
+            locationDiv.innerHTML = "Latitude: " + position.coords.latitude + 
+                                    "<br>Longitude: " + position.coords.longitude;
+        }
+
+        // Call getLocation function to retrieve and display current location
+        getLocation();
+    </script>
+    <!-- Map container -->
+    
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- JavaScript code here -->
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 5); // Set initial center and zoom level
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Get the current location of the device using Geolocation API
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // Center the map on the device's location
+            map.setView([lat, lng], 13);
+
+            // Add a marker to the map indicating the device's location
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('Your current location');
+        }, function(error) {
+            console.error('Error getting current location:', error);
+        });
+    </script>
+
 </body>
 </html>
