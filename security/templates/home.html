@@ -81,9 +81,7 @@
     </div>
     <!-- Div to display current location -->
     <div id="locationDisplay"></div>
-    <div id="map-box">
-    <div id="map"></div>
-    </div>
+   
     <script>
         // JavaScript code for retrieving and displaying current location
         function getLocation() {
@@ -103,34 +101,6 @@
 
         // Call getLocation function to retrieve and display current location
         getLocation();
-    </script>
-    <!-- Map container -->
-    
-
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- JavaScript code here -->
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([0, 0], 5); // Set initial center and zoom level
-
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        // Get the current location of the device using Geolocation API
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-
-            // Center the map on the device's location
-            map.setView([lat, lng], 13);
-
-            // Add a marker to the map indicating the device's location
-            L.marker([lat, lng]).addTo(map)
-                .bindPopup('Your current location');
-        }, function(error) {
-            console.error('Error getting current location:', error);
-        });
     </script>
 
 </body>
