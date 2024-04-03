@@ -7,10 +7,10 @@ from .models import User
 
 def login_view(request):
      if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        # Find user by email
-        user = User.objects.filter(email=email).first()
+        # Find user by username
+        user = User.objects.filter(username=username).first()
         if user and user.password == password:
             # Authentication successful, redirect to home page
             return render(request,'home.html')
@@ -21,15 +21,14 @@ def login_view(request):
 
 def register_view(request):
      if request.method == 'POST':
-        email = request.POST.get('email')
-        #phone_number = request.POST.get('phone')
+        username = request.POST.get('username')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
         if password != confirm_password:
             # Passwords don't match
             return render(request, 'register.html', {'error': 'Passwords do not match'})
         # Create a new user
-        User.objects.create(email=email, password=password)
+        User.objects.create(username=username, password=password)
         # Redirect to login page or any other page
         return redirect('login')
      return render(request, 'register.html')
